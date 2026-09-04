@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>조윤상 — Web Publisher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,340;9..144,440;9..144,560;9..144,650&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  :root{
+    --ink:#14140f;
+    --ink-2:#1d1d15;
+    --paper:#f6f3ec;
+    --paper-dim:#ece7d9;
+    --paper-line:#d9d3c1;
+    --moss:#6c7a43;
+    --moss-deep:#525d33;
+    --rust:#b5502e;
+    --ink-soft:#4a4938;
+    --paper-soft:#c7c2ae;
+    --serif:'Fraunces', serif;
+    --sans:'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+    --mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+  body{
+    font-family:var(--sans);
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  ::selection{background:var(--moss); color:var(--paper);}
+  :focus-visible{outline:2px solid var(--rust); outline-offset:3px;}
+
+  .wrap{max-width:1080px; margin:0 auto; padding:0 32px;}
+  @media (max-width:640px){ .wrap{padding:0 20px;} }
+
+  .tag{
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.01em;
+    color:var(--moss);
+  }
+  .tag::before{content:'<'; opacity:0.6;}
+  .tag::after{content:'>'; opacity:0.6;}
+  .on-dark .tag{color:#a9c07a;}
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(246,243,236,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--paper-line);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 0;
+  }
+  .brand{
+    font-family:var(--serif); font-weight:560; font-size:19px;
+    letter-spacing:0.01em;
+  }
+  .brand span{color:var(--moss);}
+  .nav-links{display:flex; gap:28px; font-size:14px; color:var(--ink-soft);}
+  .nav-links a{position:relative; padding:2px 0;}
+  .nav-links a:hover{color:var(--ink);}
+  @media (max-width:640px){ .nav-links{gap:16px; font-size:12.5px;} }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:var(--ink);
+    color:var(--paper);
+    position:relative;
+    overflow:hidden;
+    padding:96px 0 88px;
+  }
+  .hero::before{
+    content:'';
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(246,243,236,0.05) 0, rgba(246,243,236,0.05) 1px, transparent 1px, transparent 90px);
+    pointer-events:none;
+  }
+  .hero-inner{position:relative; z-index:1;}
+  .hero .tag{margin-bottom:22px; display:inline-block;}
+  .hero h1{
+    font-family:var(--serif);
+    font-weight:560;
+    font-size:clamp(38px, 6.2vw, 72px);
+    line-height:1.12;
+    letter-spacing:-0.01em;
+    max-width:15ch;
+  }
+  .hero h1 em{
+    font-style:italic;
+    font-weight:440;
+    color:#a9c07a;
+  }
+  .hero .cursor{
+    display:inline-block;
+    width:0.5ch;
+    background:var(--rust);
+    height:0.85em;
+    margin-left:4px;
+    vertical-align:-0.08em;
+    animation:blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink{ 50%{opacity:0;} }
+
+  .hero-sub{
+    margin-top:26px;
+    max-width:46ch;
+    font-size:16.5px;
+    color:var(--paper-soft);
+  }
+  .hero-meta{
+    margin-top:46px;
+    display:flex; flex-wrap:wrap; gap:10px;
+  }
+  .chip{
+    font-family:var(--mono);
+    font-size:12.5px;
+    padding:6px 12px;
+    border:1px solid rgba(246,243,236,0.22);
+    border-radius:3px;
+    color:var(--paper-soft);
+  }
+
+  /* ---------- SECTION shared ---------- */
+  section{padding:88px 0;}
+  .section-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    gap:24px; margin-bottom:48px;
+    border-bottom:1px solid var(--paper-line);
+    padding-bottom:20px;
+  }
+  .section-head h2{
+    font-family:var(--serif);
+    font-weight:560;
+    font-size:clamp(26px, 3.4vw, 36px);
+    letter-spacing:-0.01em;
+  }
+  @media (max-width:640px){
+    section{padding:64px 0;}
+    .section-head{flex-direction:column; align-items:flex-start; gap:8px;}
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:56px;
+    align-items:start;
+  }
+  .monogram{
+    width:150px; height:150px;
+    border-radius:50%;
+    background:var(--ink);
+    color:var(--paper);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--serif); font-weight:560; font-size:40px;
+    letter-spacing:-0.02em;
+    position:relative;
+  }
+  .monogram::after{
+    content:'';
+    position:absolute; inset:-8px;
+    border:1px solid var(--paper-line);
+    border-radius:50%;
+  }
+  .about-copy p{
+    font-size:17px;
+    color:var(--ink-soft);
+    max-width:56ch;
+  }
+  .about-copy p + p{margin-top:16px;}
+  .about-copy strong{color:var(--ink); font-weight:600;}
+  .about-quote{
+    margin-top:30px;
+    padding-left:18px;
+    border-left:2px solid var(--moss);
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:19px;
+    color:var(--ink);
+  }
+  @media (max-width:720px){
+    .about-grid{grid-template-columns:1fr; gap:28px;}
+  }
+
+  /* ---------- SKILLS ---------- */
+  .skills-groups{display:flex; flex-direction:column; gap:36px;}
+  .skill-group-title{
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--moss-deep);
+    margin-bottom:14px;
+  }
+  .skills-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1px;
+    background:var(--paper-line);
+    border:1px solid var(--paper-line);
+  }
+  .skill-cell{
+    background:var(--paper);
+    padding:26px 22px;
+  }
+  .skill-cell .name{
+    font-family:var(--serif);
+    font-size:20px;
+    font-weight:560;
+  }
+  .skill-cell .role{
+    margin-top:6px;
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+  .skill-cell .exp{
+    display:inline-block;
+    margin-top:10px;
+    font-family:var(--mono);
+    font-size:11px;
+    padding:3px 8px;
+    border:1px solid var(--paper-line);
+    border-radius:3px;
+    color:var(--moss-deep);
+  }
+  @media (max-width:720px){
+    .skills-grid{grid-template-columns:repeat(2, 1fr);}
+  }
+  @media (max-width:460px){
+    .skills-grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- WORK ---------- */
+  .work-list{display:flex; flex-direction:column; gap:28px;}
+  .work-card{
+    display:grid;
+    grid-template-columns:1fr 1.2fr;
+    border:1px solid var(--paper-line);
+    background:var(--paper-dim);
+    overflow:hidden;
+  }
+  .browser-mock{
+    background:#fff;
+    border-right:1px solid var(--paper-line);
+    display:flex; flex-direction:column;
+  }
+  .browser-screen{
+    flex:1;
+    min-height:150px;
+    display:flex; align-items:center; justify-content:center;
+    background:
+      linear-gradient(135deg, var(--moss) 0%, var(--ink) 130%);
+    color:var(--paper);
+    font-family:var(--serif);
+    font-size:15px;
+    letter-spacing:0.01em;
+    text-align:center;
+    padding:18px;
+  }
+  .work-body{
+    padding:28px 30px;
+    display:flex; flex-direction:column;
+    justify-content:center;
+  }
+  .work-index{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--rust);
+    margin-bottom:8px;
+  }
+  .work-body h3{
+    font-family:var(--serif);
+    font-weight:560;
+    font-size:24px;
+    margin-bottom:12px;
+  }
+  .work-body p{
+    font-size:15px;
+    color:var(--ink-soft);
+    max-width:44ch;
+  }
+  .work-link{
+    margin-top:18px;
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--moss-deep);
+    border-bottom:1px solid var(--moss-deep);
+    width:fit-content;
+    padding-bottom:2px;
+  }
+  .work-link:hover{color:var(--rust); border-color:var(--rust);}
+  .work-footer{
+    margin-top:18px;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .work-footer .work-link{margin-top:0;}
+  .work-qr{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .work-qr img{
+    width:96px; height:96px;
+    border:2px solid var(--ink);
+    background:#fff;
+    padding:6px;
+    border-radius:6px;
+  }
+  .work-qr span{
+    font-family:var(--mono);
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--ink-soft);
+  }
+  @media (max-width:720px){
+    .work-card{grid-template-columns:1fr;}
+    .browser-mock{border-right:none; border-bottom:1px solid var(--paper-line);}
+  }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline{border-top:1px solid var(--paper-line);}
+  .t-row{
+    display:grid;
+    grid-template-columns:150px 1fr auto;
+    gap:24px;
+    align-items:baseline;
+    padding:22px 0;
+    border-bottom:1px solid var(--paper-line);
+  }
+  .t-date{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+  .t-title{font-size:16px; font-weight:600;}
+  .t-desc{font-size:13.5px; color:var(--ink-soft); margin-top:4px;}
+  .t-status{
+    font-family:var(--mono);
+    font-size:11.5px;
+    padding:4px 10px;
+    border-radius:20px;
+    white-space:nowrap;
+    height:fit-content;
+  }
+  .t-status.progress{background:rgba(108,122,67,0.14); color:var(--moss-deep);}
+  .t-status.done{background:rgba(30,30,20,0.06); color:var(--ink-soft);}
+  @media (max-width:640px){
+    .t-row{grid-template-columns:1fr; gap:6px;}
+    .t-status{width:fit-content;}
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact{
+    background:var(--ink);
+    color:var(--paper);
+  }
+  .contact .section-head{border-bottom-color:rgba(246,243,236,0.16);}
+  .contact .section-head h2{color:var(--paper);}
+  .contact-grid{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:48px;
+  }
+  .contact-lead{
+    font-family:var(--serif);
+    font-weight:560;
+    font-size:clamp(24px, 3.2vw, 34px);
+    line-height:1.3;
+    max-width:16ch;
+  }
+  .contact-list{display:flex; flex-direction:column; gap:16px;}
+  .contact-item{
+    display:flex; justify-content:space-between; gap:16px;
+    padding-bottom:14px;
+    border-bottom:1px solid rgba(246,243,236,0.16);
+    font-size:15px;
+  }
+  .contact-item .label{color:var(--paper-soft); font-family:var(--mono); font-size:12.5px;}
+  .contact-item a:hover{color:#a9c07a;}
+  @media (max-width:720px){
+    .contact-grid{grid-template-columns:1fr; gap:32px;}
+  }
+  footer{
+    background:var(--ink);
+    color:var(--paper-soft);
+    font-size:12.5px;
+    padding:22px 0 34px;
+    border-top:1px solid rgba(246,243,236,0.12);
+  }
+  footer .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+  }
+  .footer-social{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .footer-social a{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    border:1px solid rgba(246,243,236,0.16);
+    color:var(--paper-soft);
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .footer-social a:hover{
+    color:#a9c07a;
+    border-color:#a9c07a;
+  }
+  .footer-social svg{width:16px; height:16px;}
+  @media (max-width:480px){
+    footer .wrap{flex-direction:column; gap:12px; text-align:center;}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <div class="brand">JO-YOON-SANG</div>
+    <nav class="nav-links">
+      <a href="#about">소개</a>
+      <a href="#skills">기술</a>
+      <a href="#work">작업</a>
+      <a href="#timeline">이력</a>
+      <a href="#contact">연락</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero on-dark">
+  <div class="wrap hero-inner">
+    <h1>흔들림 없는 태도로<br>화면을 <em>완성</em>하는<br>웹 퍼블리셔<span class="cursor"></span></h1>
+    <p class="hero-sub">
+      조윤상입니다. 화려한 경력보다 꾸준함을 믿습니다. 주어진 화면을 끝까지 붙들고,
+      한 줄 한 줄 시맨틱하게 마크업하는 일을 좋아합니다.
+    </p>
+    <div class="hero-meta">
+      <span class="chip">HTML</span>
+      <span class="chip">CSS</span>
+      <span class="chip">JavaScript</span>
+      <span class="chip">GitHub</span>
+      <span class="chip">Vercel</span>
+      <span class="chip">Figma</span>
+      <span class="chip">Firebase</span>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Introduction</h2>
+    </div>
+    <div class="about-grid">
+      <div class="monogram">JY</div>
+      <div class="about-copy">
+        <p>
+          아직 실무 경력은 없습니다. 대신 <strong>기복 없이 꾸준한 태도</strong>를 오래 훈련해왔습니다.
+          컨디션이나 감정에 휘둘리지 않도록 스스로를 다스리는 마인드 컨트롤과 멘탈 케어를
+          중요하게 여기고, 그 태도를 작업에도 그대로 가져옵니다.
+        </p>
+        <p>
+          말이 앞서기보다 묵묵히 손을 움직이는 편이고, 팀에서는 먼저 나서기보다
+          <strong>경청하고 맞춰가는 태도</strong>로 일합니다. 화면 하나를 완성하는 데 필요한 건
+          재능보다 반복이라고 생각하며, 그 반복을 지치지 않고 해내는 사람이 되려고 합니다.
+        </p>
+        <div class="about-quote">"잘하는 사람보다, 계속하는 사람이 되고 싶습니다."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" style="background:var(--paper-dim);">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>skills</h2>
+    </div>
+    <div class="skills-groups">
+      <div class="skill-group">
+        <div class="skill-group-title">Language</div>
+        <div class="skills-grid">
+          <div class="skill-cell">
+            <div class="name">HTML</div>
+            <div class="role">시맨틱 마크업</div>
+            <span class="exp">실무 활용 경험</span>
+          </div>
+          <div class="skill-cell">
+            <div class="name">CSS</div>
+            <div class="role">반응형 레이아웃</div>
+            <span class="exp">실무 활용 경험</span>
+          </div>
+          <div class="skill-cell">
+            <div class="name">JavaScript</div>
+            <div class="role">인터랙션 구현</div>
+            <span class="exp">실무 활용 경험</span>
+          </div>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Tool</div>
+        <div class="skills-grid">
+          <div class="skill-cell">
+            <div class="name">GitHub</div>
+            <div class="role">버전 관리</div>
+            <span class="exp">실무 활용 경험</span>
+          </div>
+          <div class="skill-cell">
+            <div class="name">Vercel</div>
+            <div class="role">배포 · 호스팅</div>
+            <span class="exp">실무 활용 경험</span>
+          </div>
+          <div class="skill-cell">
+            <div class="name">Figma</div>
+            <div class="role">디자인 시안 분석</div>
+            <span class="exp">실무 활용 경험</span>
+          </div>
+          <div class="skill-cell">
+            <div class="name">Firebase</div>
+            <div class="role">인증 · 데이터 연동</div>
+            <span class="exp">실무 활용 경험</span>
+          </div>
+          <div class="skill-cell">
+            <div class="name">Antigravity</div>
+            <div class="role">AI 기반 코드 에디터</div>
+            <span class="exp">실무 활용 경험</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>work</h2>
+    </div>
+    <div class="work-list">
+
+      <div class="work-card">
+        <div class="browser-mock">
+          <div class="browser-screen">WaveScan</div>
+        </div>
+        <div class="work-body">
+          <div class="work-index">01</div>
+          <h3>WaveScan</h3>
+          <p>용기를 촬영하면 AI가 재질을 분석해 전자레인지 사용 가능 여부를 쉽고 빠르게 확인할 수 있는 안전 검사 앱입니다.</p>
+          <div class="work-footer">
+            <a class="work-link" href="https://wave-scan.vercel.app/" target="_blank" rel="noopener">사이트 방문하기 →</a>
+            <div class="work-qr">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUoAAAFKAQAAAABTUiuoAAAB6ElEQVR4nO2bQYrcMBBFX8WCLNUwB8hR5BvkTLmZfZTcwFo2yPwsJNudmSR4BtyjQNXC3ZLf4kPxS1Vq2sTJmL+cJcFRRx111FFHr0StRcDGbMZsZjbmbXu8XICjpyLUjzQB5Bc034ZixAXIQwHArhTg6AfQvFsoFqRlrUszC88R4OgHUBtzwMb89W1n351WR0m6G/O3u32WAEf/HludiwIyQH6RpQlBhkeHfbpWRxs6m5nZbd/OARtZa0v4DAGOnonqrUcLxbsJCs1vVwtw9P3z1gjUUQsGAavpx+Y3Gy8X4OipCI+LKIx8Q/MIRlwwWIOuFODoO1AkSTRHDdJUvz2+qDF9ulZHG5oWkHQ3ku62JYo6Jz9DgKOnohkHWsqmKJFU0FStBiT3Vh9oK3hpGbQlStIUy/ZCBa+EvaAtFVq202qKkqRSrYafWz2hv2Urllr16qMuF9xb3aBb61dv3gdJCxyNIe6tntDNW1s0by08uMyz1Rd6/HYMrMZ8GwQ5/AG9RoCj5+JwVK2EE0cb79NxZ+jewQOpthraHnv4vNUp2ryVzVo7uDxZgKP/iPB6I/0MhaQ1aL4Nhfl78VvdbtC351ZshfGwlZ9bvaD7VTsAw35FeIzN+LnVDWr+rwVHHXXUUUf/I/QXqPB6EUDQrusAAAAASUVORK5CYII=" alt="WaveScan QR 코드">
+              <span>QR로 접속</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-card">
+        <div class="browser-mock">
+          <div class="browser-screen">LocknLock</div>
+        </div>
+        <div class="work-body">
+          <div class="work-index">02</div>
+          <h3>LocknLock 이커머스</h3>
+          <p>록앤록 제품을 소개하고 구매까지 자연스럽게 이어지도록 구성한 반응형 이커머스 페이지 퍼블리싱 작업입니다.</p>
+          <div class="work-footer">
+            <a class="work-link" href="https://lockn-lock.vercel.app/" target="_blank" rel="noopener">사이트 방문하기 →</a>
+            <div class="work-qr">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUoAAAFKAQAAAABTUiuoAAAB8klEQVR4nO2bQYrjQAxFn8aGXpahD9BHsW82zM3KR8kBGuxlg82fhVzuhEDjDCSuAdUiVCpv8UFIVn05Jg6u8ddREgINNNBAAw30mahtqwXmlrIrx8PTBQT6CNpLkiawIS1sOxpJkm7R5wgI9BF0Lik0dqtBWvx4y7IXCAj0X9D+0mIDoHyOgECPo/rTAbCWp9WrBQT6wyp1LgmYgX7qEPO7DOD67ny61kA3dDQzs27rLWzw09VbwlcICPTI8ty6sZ/2LiPdulKnaw0U79G3Dr7xnf+QaaRcEOXTtQa6hWIPGaQSvFza+IhWLWjJrQmkqSmRmwBo5DWxj2hVhjZi/FiwYTazYU+rTBNeRjVoqYTTFhRJ3mCIvqRa5FYt6F4J98j4buHmI6JVG7rdrdKX37wYOyh3sJcICPQwuppykhitRbq02O9Li/L8Fs+tatCrSuhfc1rKwwv4LpFRCStAdy9jcUPD+subjPQJfQbbZycVaA3Uo1WswGbR2GECZMzvHinr8/MEBPo4us+OIUlmVyPJNVzd6tB9dgz4SJLRzGCO2XE9aHt3MreLmEFbJVwKcrrWQO/QflrdeXL7abTo4OtB72bHpKX12fHYfbb03zOu07UGyvU7aDTFE3T7XfIbc/iElaAW/1oINNBAAw30P0L/AprZOevR7pqUAAAAAElFTkSuQmCC" alt="LocknLock QR 코드">
+              <span>QR로 접속</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-card">
+        <div class="browser-mock">
+          <div class="browser-screen">국립생태원</div>
+        </div>
+        <div class="work-body">
+          <div class="work-index">03</div>
+          <h3>국립생태원 리뉴얼</h3>
+          <p>기존 국립생태원 웹사이트를 시맨틱 마크업과 반응형 레이아웃으로 다시 구조화한 리뉴얼 프로젝트입니다.</p>
+          <a class="work-link" href="https://younsang5122.github.io/NIERenew/" target="_blank" rel="noopener">사이트 방문하기 →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="timeline" style="background:var(--paper-dim);">
+  <div class="wrap">
+    <div class="section-head" style="border-bottom:none;">
+      <h2>History</h2>
+    </div>
+    <div class="timeline">
+      <div class="t-row">
+        <div class="t-date">대덕대학교</div>
+        <div>
+          <div class="t-title">컴퓨터공학과 (2년제)</div>
+          <div class="t-desc" style="margin-top:4px;">2017.02 – 2019.03</div>
+        </div>
+        <span class="t-status done">졸업</span>
+      </div>
+      <div class="t-row">
+        <div class="t-date">그린컴퓨터아트학원</div>
+        <div>
+          <div class="t-title">AI 바이브코딩 웹비즈니스 구축 및 마케팅 실전 과정</div>
+          <div class="t-desc">[AI Worker] 취·창업을 위한 실전 과정 · SNS · 홈페이지 · 홍보</div>
+          <div class="t-desc" style="margin-top:4px;">2026.06 – 2026.09</div>
+        </div>
+        <span class="t-status progress">수강 중</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Contact</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-lead">같이 작업할 화면이 있다면, 편하게 연락 주세요.</div>
+      <div class="contact-list">
+        <div class="contact-item">
+          <span class="label">email</span>
+          <span>younsang5122@gmail.com</span>
+        </div>
+        <div class="contact-item">
+          <span class="label">phone</span>
+          <span>010-3394-0268</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Jo Yoon Sang. Built with care, one tag at a time.</span>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/younsang5122/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        </svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
