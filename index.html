@@ -227,6 +227,13 @@
   @media (max-width:720px){ .toolkit-grid{grid-template-columns:repeat(2,1fr);} }
   @media (max-width:460px){ .toolkit-grid{grid-template-columns:1fr;} }
 
+  .toolkit-group + .toolkit-group{margin-top:36px;}
+  .toolkit-label{
+    font-family:var(--serif); font-style:italic; font-size:14px;
+    color:var(--denim);
+    margin-bottom:14px;
+  }
+
   /* ---------- WORK ---------- */
   .work-row{
     display:grid;
@@ -304,15 +311,33 @@
     text-align:left;
   }
   .contact-rows .row{
-    display:flex; gap:14px; font-size:15px;
+    display:flex; align-items:center; gap:14px; font-size:15px;
     padding-bottom:10px;
     border-bottom:1px solid rgba(236,230,216,0.18);
   }
-  .contact-rows .row span:first-child{
-    color:rgba(236,230,216,0.55); width:60px; flex-shrink:0;
-    font-family:var(--mono); font-size:12px; padding-top:2px;
+  .contact-rows .row .c-icon{
+    width:19px; height:19px; flex-shrink:0;
+    color:rgba(236,230,216,0.6);
+  }
+  .contact-rows .row .c-label{
+    color:rgba(236,230,216,0.55); width:50px; flex-shrink:0;
+    font-family:var(--mono); font-size:12px;
   }
   .contact-rows .row a:hover{color:#a9c07a;}
+  .contact-rows .row:hover .c-icon{color:#a9c07a;}
+  .contact-icons{
+    display:flex; justify-content:center; flex-wrap:wrap;
+    gap:34px;
+    margin-top:32px;
+  }
+  .contact-icons a{
+    display:flex; flex-direction:column; align-items:center; gap:9px;
+    color:rgba(236,230,216,0.75);
+    font-size:12px;
+    transition:color 0.2s ease;
+  }
+  .contact-icons a svg{width:24px; height:24px;}
+  .contact-icons a:hover{color:#a9c07a;}
   footer{
     padding:30px 0 40px;
     display:flex; align-items:center; justify-content:space-between;
@@ -397,13 +422,22 @@
   <div class="wrap">
     <h2 class="section-title">다루는 도구</h2>
     <p class="section-sub">화면을 만드는 데 쓰는 언어와 도구입니다.</p>
-    <div class="toolkit-grid">
-      <div class="tool-cell"><div class="t-name">HTML</div><div class="t-role">시맨틱 마크업</div></div>
-      <div class="tool-cell"><div class="t-name">CSS</div><div class="t-role">반응형 레이아웃</div></div>
-      <div class="tool-cell"><div class="t-name">JavaScript</div><div class="t-role">인터랙션 구현</div></div>
-      <div class="tool-cell"><div class="t-name">GitHub</div><div class="t-role">버전 관리</div></div>
-      <div class="tool-cell"><div class="t-name">Vercel</div><div class="t-role">배포 · 호스팅</div></div>
-      <div class="tool-cell"><div class="t-name">Figma</div><div class="t-role">디자인 시안 분석</div></div>
+    <div class="toolkit-group">
+      <div class="toolkit-label">Language</div>
+      <div class="toolkit-grid">
+        <div class="tool-cell"><div class="t-name">HTML</div><div class="t-role">시맨틱 마크업</div></div>
+        <div class="tool-cell"><div class="t-name">CSS</div><div class="t-role">반응형 레이아웃</div></div>
+        <div class="tool-cell"><div class="t-name">JavaScript</div><div class="t-role">인터랙션 구현</div></div>
+      </div>
+    </div>
+    <div class="toolkit-group">
+      <div class="toolkit-label">Tools</div>
+      <div class="toolkit-grid">
+        <div class="tool-cell"><div class="t-name">GitHub</div><div class="t-role">버전 관리</div></div>
+        <div class="tool-cell"><div class="t-name">Vercel</div><div class="t-role">배포 · 호스팅</div></div>
+        <div class="tool-cell"><div class="t-name">Figma</div><div class="t-role">디자인 시안 분석</div></div>
+        <div class="tool-cell"><div class="t-name">Firebase</div><div class="t-role">인증 · 데이터베이스</div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -419,6 +453,7 @@
         <h3>WaveScan</h3>
         <p>용기를 촬영하면 AI가 재질을 분석해 전자레인지 사용 가능 여부를 쉽고 빠르게 확인할 수 있는 안전 검사 앱입니다.</p>
         <a class="w-link" href="https://wave-scan.vercel.app/" target="_blank" rel="noopener">사이트 방문하기</a>
+        <a class="w-link" href="https://younsang5122.github.io/wavescan-landing/index.html" target="_blank" rel="noopener" style="margin-left:16px;">앱소개서 보기</a>
         <div class="w-qr">
           <img src="img/wavescan_qr.png" alt="WaveScan 모바일 접속 QR코드">
           <span>QR 스캔으로 모바일 확인</span>
@@ -430,7 +465,7 @@
       <div class="w-visual"><img src="img/LocknLock.png" alt="LocknLock 제품 소개 화면"></div>
       <div class="w-text">
         <h3>LocknLock 이커머스</h3>
-        <p>록앤록 제품을 소개하고 구매까지 자연스럽게 이어지도록 구성한 반응형 이커머스 페이지 퍼블리싱 작업입니다.</p>
+        <p>락앤락 제품을 소개하고 구매까지 자연스럽게 이어지도록 구성한 반응형 이커머스 페이지 퍼블리싱 작업입니다.</p>
         <a class="w-link" href="https://lockn-lock.vercel.app/" target="_blank" rel="noopener">사이트 방문하기</a>
         <div class="w-qr">
           <img src="img/locknlock_qr.png" alt="LocknLock 모바일 접속 QR코드">
@@ -456,9 +491,35 @@
     <div class="contact-card">
       <h2>같이 작업할 화면이 있다면,<br>편하게 연락 주세요.</h2>
       <div class="contact-rows">
-        <div class="row"><span>email</span><span>younsang5122@gmail.com</span></div>
-        <div class="row"><span>phone</span><span>010-3394-0268</span></div>
-        <div class="row"><span>insta</span><a href="https://www.instagram.com/younsang5122/" target="_blank" rel="noopener noreferrer">@younsang5122</a></div>
+        <div class="row">
+          <span class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><polyline points="3 7 12 13 21 7"></polyline></svg></span>
+          <span class="c-label">email</span>
+          <span>younsang5122@gmail.com</span>
+        </div>
+        <div class="row">
+          <span class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></span>
+          <span class="c-label">phone</span>
+          <span>010-3394-0268</span>
+        </div>
+      </div>
+
+      <div class="contact-icons">
+        <a href="https://www.instagram.com/younsang5122/" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          <span>Instagram</span>
+        </a>
+        <a href="https://github.com/younsang5122/Portfolio/tree/main#%EF%B8%8F-skills" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.78-.25.78-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.19 1.18a11.1 11.1 0 0 1 5.8 0c2.22-1.49 3.19-1.18 3.19-1.18.63 1.59.23 2.77.11 3.06.74.81 1.19 1.83 1.19 3.09 0 4.41-2.7 5.39-5.27 5.67.41.36.78 1.07.78 2.16 0 1.56-.01 2.82-.01 3.2 0 .31.21.66.79.55C20.71 21.39 24 17.08 24 12c0-6.27-5.23-11.5-12-11.5z"></path></svg>
+          <span>GitHub</span>
+        </a>
+        <a href="https://notefolio.net/younsang5122" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"></path></svg>
+          <span>노트폴리오</span>
+        </a>
+        <a href="https://app.notion.com/p/b38a60f26a9a82ceb1b78179abfab43b?source=copy_link" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="16" y2="17"></line></svg>
+          <span>Notion</span>
+        </a>
       </div>
     </div>
   </div>
