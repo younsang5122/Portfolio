@@ -20,10 +20,9 @@
 ### 🛠️ Skills
 | 분야 | 도구 |
 |---|---|
-| 언어 | HTML, CSS, Java, JavaScript, React |
-| 백엔드 | Firebase |
-| 디자인 | Figma, Stitch |
-| 기획 · 리서치 | Claude, Notion |
+| Language | HTML, CSS, JavaScript, Java, React |
+| Tool | GitHub, Vercel, Figma, Firebase, Antigravity IDE, Stitch |
+| 기획 · 리서치 | Notion |
 | AI 활용 | Claude, ChatGPT, Gemini |
 
 ### 📌 대표 프로젝트
@@ -36,6 +35,7 @@
 
 ### 🔗 바로가기
 - 📓 노션 포트폴리오: [바로가기](https://app.notion.com/p/b38a60f26a9a82ceb1b78179abfab43b?source=copy_link)
+- 🗂️ 노트폴리오: [바로가기](https://notefolio.net/younsang5122)
 - 🌐 개인 웹사이트: [younsang5122.github.io/Portfolio](https://younsang5122.github.io/Portfolio/)
 - 📷 인스타그램: [@younsang5122](https://www.instagram.com/younsang5122/)
 - ✉️ 이메일: [younsang5122@gmail.com](mailto:younsang5122@gmail.com)
