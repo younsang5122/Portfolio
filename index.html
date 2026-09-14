@@ -148,31 +148,64 @@
   }
   @media (max-width:640px){ section{padding:60px 0;} }
 
-  /* ---------- NARRATIVE (Before / Now / Next) ---------- */
+  /* ---------- NARRATIVE (diary timeline: Before / Now / Next) ---------- */
   .narrative{
     display:grid;
-    grid-template-columns:0.85fr 1.3fr 0.85fr;
-    gap:18px;
-    align-items:stretch;
+    grid-template-columns:22px 1fr;
+    column-gap:28px;
+  }
+  .n-rail{
+    grid-column:1;
+    grid-row:1 / span 3;
+    position:relative;
+    width:2px;
+    justify-self:center;
+    background:repeating-linear-gradient(to bottom, var(--line) 0, var(--line) 5px, transparent 5px, transparent 11px);
   }
   .n-card{
-    border-radius:6px;
-    padding:30px 26px;
-    display:flex; flex-direction:column;
+    position:relative;
+    padding:26px 0 26px 4px;
+    opacity:0; transform:translateY(14px);
+    transition:opacity 0.5s ease, transform 0.5s ease;
   }
-  .n-card.side{
-    background:var(--paper-2);
-    border:1px solid var(--line);
+  .n-card.is-visible{opacity:1; transform:translateY(0);}
+  .n-card::before{
+    content:'';
+    position:absolute;
+    left:-32px; top:30px;
+    width:11px; height:11px;
+    border-radius:50%;
+    background:var(--paper);
+    border:2px solid var(--ink-soft);
+  }
+  .n-card.main::before{
+    border-color:var(--moss);
+    background:var(--moss);
+    box-shadow:0 0 0 4px rgba(108,122,67,0.18);
+  }
+  .n-card.next::before{
+    border-style:dashed;
+    background:var(--paper);
+  }
+  .n-date{
+    font-family:var(--mono); font-size:11.5px;
+    color:var(--ink-soft);
+    margin-bottom:10px;
+    display:block;
   }
   .n-card.main{
     background:var(--ink);
     color:var(--cream-on-ink);
+    border-radius:6px;
+    padding:26px 28px;
+    margin:4px 0;
     box-shadow:0 18px 40px -20px rgba(34,31,25,0.4);
   }
+  .n-card.main .n-date{color:rgba(236,230,216,0.5);}
   .n-label{
     font-family:var(--serif); font-style:italic; font-size:14px;
     color:var(--denim);
-    margin-bottom:16px;
+    margin-bottom:10px;
   }
   .n-card.main .n-label{color:#a9c07a;}
   .n-title{
@@ -188,7 +221,7 @@
   .n-desc{
     font-size:14px;
     color:var(--ink-soft);
-    flex:1;
+    max-width:56ch;
   }
   .n-card.main .n-desc{color:rgba(236,230,216,0.85);}
   .n-desc p + p{margin-top:10px;}
@@ -199,35 +232,45 @@
     font-size:11.5px;
     padding:4px 11px;
     border-radius:20px;
-    background:rgba(181,80,46,0.16);
-    color:var(--rust);
+    background:rgba(181,80,46,0.2);
+    color:#e0a487;
   }
-  @media (max-width:800px){
-    .narrative{grid-template-columns:1fr;}
+  @media (max-width:640px){
+    .narrative{grid-template-columns:16px 1fr; column-gap:18px;}
+    .n-card::before{left:-25px;}
   }
 
-  /* ---------- TOOLKIT ---------- */
+  /* ---------- TOOLKIT (fabric swatch labels) ---------- */
   .toolkit-grid{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:1px;
-    background:var(--line);
-    border:1px solid var(--line);
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
   }
   .tool-cell{
-    background:var(--paper);
-    padding:24px 20px;
+    position:relative;
+    background:var(--swatch, var(--denim));
+    color:var(--swatch-text, #dfe6ec);
+    padding:12px 18px 12px 24px;
+    border-radius:3px;
+    min-width:150px;
+  }
+  .tool-cell::before{
+    content:'';
+    position:absolute;
+    left:6px; top:8px; bottom:8px;
+    width:1px;
+    background:repeating-linear-gradient(to bottom, rgba(255,255,255,0.45) 0, rgba(255,255,255,0.45) 2px, transparent 2px, transparent 5px);
   }
   .tool-cell .t-name{
-    font-family:var(--serif); font-weight:560; font-size:19px;
+    font-family:var(--serif); font-weight:560; font-size:16px;
   }
   .tool-cell .t-role{
-    margin-top:5px; font-size:12.5px; color:var(--ink-soft);
+    margin-top:3px; font-size:11.5px; opacity:0.75;
   }
-  @media (max-width:720px){ .toolkit-grid{grid-template-columns:repeat(2,1fr);} }
-  @media (max-width:460px){ .toolkit-grid{grid-template-columns:1fr;} }
-
-  .toolkit-group + .toolkit-group{margin-top:36px;}
+  .toolkit-group[data-swatch="denim"] .tool-cell{ --swatch:var(--denim); --swatch-text:#dfe6ec; }
+  .toolkit-group[data-swatch="rust"] .tool-cell{ --swatch:var(--rust); --swatch-text:#f3ddd2; }
+  .toolkit-group[data-swatch="moss"] .tool-cell{ --swatch:var(--moss); --swatch-text:#edf2e3; }
+  .toolkit-group + .toolkit-group{margin-top:32px;}
   .toolkit-label{
     font-family:var(--serif); font-style:italic; font-size:14px;
     color:var(--denim);
@@ -252,6 +295,12 @@
     border-radius:6px;
     overflow:hidden;
     display:flex; align-items:center; justify-content:center;
+    position:relative;
+    transition:transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .w-visual:hover{
+    transform:translateY(-4px);
+    box-shadow:0 16px 32px -18px rgba(34,31,25,0.35);
   }
   .w-visual img{width:100%; height:100%; object-fit:contain; display:block;}
   .w-text h3{
@@ -391,20 +440,23 @@
     <h2 class="section-title">지금까지, 그리고 앞으로</h2>
     <p class="section-sub">경력은 짧지만, 그동안 다져온 태도와 지금 채우고 있는 것들로 대신 말씀드릴게요.</p>
     <div class="narrative">
+      <div class="n-rail"></div>
 
-      <div class="n-card side">
+      <div class="n-card">
+        <span class="n-date">2017.02 — 2019.03</span>
         <div class="n-label">Before</div>
         <div class="n-title">대덕대학교 컴퓨터공학과</div>
-        <div class="n-meta">2017.02 – 2019.03 · 2년제 · 졸업</div>
+        <div class="n-meta">2년제 · 졸업</div>
         <div class="n-desc">
           <p>웹의 구조를 처음 배운 시간입니다. 화면 하나가 어떻게 짜여 있는지 궁금해하던 때였습니다.</p>
         </div>
       </div>
 
       <div class="n-card main">
+        <span class="n-date">2026.06 — 현재</span>
         <div class="n-label">Now</div>
         <div class="n-title">AI 바이브코딩 웹비즈니스 구축 및 마케팅 실전 과정</div>
-        <div class="n-meta">그린컴퓨터아트학원 · 2026.06 – 2026.09</div>
+        <div class="n-meta">그린컴퓨터아트학원</div>
         <div class="n-desc">
           <p>실무 경력은 아직 없습니다. 대신 컨디션이나 감정에 휘둘리지 않도록
           스스로를 다스리는 마인드 컨트롤과 멘탈 케어를 오래 훈련해왔습니다.</p>
@@ -414,10 +466,10 @@
         <span class="n-status">수강 중</span>
       </div>
 
-      <div class="n-card side">
+      <div class="n-card next">
+        <span class="n-date">지향점</span>
         <div class="n-label">Next</div>
         <div class="n-title">계속하는 사람이 되는 것</div>
-        <div class="n-meta">지향점</div>
         <div class="n-desc">
           <p>잘하는 사람보다, 계속하는 사람이 되고 싶습니다. 반복을 지치지 않고
           해내는 웹 퍼블리셔로 성장하는 것이 다음 목표입니다.</p>
@@ -431,21 +483,34 @@
 <section style="background:var(--paper-2);">
   <div class="wrap">
     <h2 class="section-title">다루는 도구</h2>
-    <p class="section-sub">화면을 만드는 데 쓰는 언어와 도구입니다.</p>
-    <div class="toolkit-group">
-      <div class="toolkit-label">Language</div>
+    <p class="section-sub">화면을 만들고 협업하는 데 쓰는 언어, 디자인 및 AI 도구입니다.</p>
+    
+    <div class="toolkit-group" data-swatch="denim">
+      <div class="toolkit-label">Language & Core</div>
       <div class="toolkit-grid">
         <div class="tool-cell"><div class="t-name">HTML</div><div class="t-role">시맨틱 마크업</div></div>
         <div class="tool-cell"><div class="t-name">CSS</div><div class="t-role">반응형 레이아웃</div></div>
         <div class="tool-cell"><div class="t-name">JavaScript</div><div class="t-role">인터랙션 구현</div></div>
       </div>
     </div>
-    <div class="toolkit-group">
-      <div class="toolkit-label">Tools</div>
+
+    <div class="toolkit-group" data-swatch="moss">
+      <div class="toolkit-label">AI & Vibe Coding</div>
       <div class="toolkit-grid">
+        <div class="tool-cell"><div class="t-name">바이브코딩</div><div class="t-role">AI 기반 웹 구축</div></div>
+        <div class="tool-cell"><div class="t-name">ChatGPT</div><div class="t-role">프롬프트 & 코드 어시스턴트</div></div>
+        <div class="tool-cell"><div class="t-name">Gemini</div><div class="t-role">개발 및 기획 협업</div></div>
+        <div class="tool-cell"><div class="t-name">Claude</div><div class="t-role">코드 분석 및 구조화</div></div>
+      </div>
+    </div>
+
+    <div class="toolkit-group" data-swatch="rust">
+      <div class="toolkit-label">Design & Tools</div>
+      <div class="toolkit-grid">
+        <div class="tool-cell"><div class="t-name">UI/UX 디자인</div><div class="t-role">사용자 경험 설계</div></div>
+        <div class="tool-cell"><div class="t-name">Figma</div><div class="t-role">디자인 시안 분석</div></div>
         <div class="tool-cell"><div class="t-name">GitHub</div><div class="t-role">버전 관리</div></div>
         <div class="tool-cell"><div class="t-name">Vercel</div><div class="t-role">배포 · 호스팅</div></div>
-        <div class="tool-cell"><div class="t-name">Figma</div><div class="t-role">디자인 시안 분석</div></div>
         <div class="tool-cell"><div class="t-name">Firebase</div><div class="t-role">인증 · 데이터베이스</div></div>
       </div>
     </div>
@@ -466,7 +531,7 @@
         <a class="w-link" href="https://younsang5122.github.io/wavescan-landing/index.html" target="_blank" rel="noopener" style="margin-left:16px;">앱소개서 보기</a>
         <div class="w-qr">
           <img src="img/wavescan_qr.png" alt="WaveScan 모바일 접속 QR코드">
-          <span>QR 스캔으로 모바일 확인</span>
+          <span>QR 스캔으로 <br>모바일 확인</span>
         </div>
         <div class="w-icon-links">
           <a href="https://github.com/younsang5122/WaveScan" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.78-.25.78-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.19 1.18a11.1 11.1 0 0 1 5.8 0c2.22-1.49 3.19-1.18 3.19-1.18.63 1.59.23 2.77.11 3.06.74.81 1.19 1.83 1.19 3.09 0 4.41-2.7 5.39-5.27 5.67.41.36.78 1.07.78 2.16 0 1.56-.01 2.82-.01 3.2 0 .31.21.66.79.55C20.71 21.39 24 17.08 24 12c0-6.27-5.23-11.5-12-11.5z"></path></svg><span>GitHub</span></a>
@@ -483,7 +548,7 @@
         <a class="w-link" href="https://lockn-lock.vercel.app/" target="_blank" rel="noopener">사이트 방문하기</a>
         <div class="w-qr">
           <img src="img/locknlock_qr.png" alt="LocknLock 모바일 접속 QR코드">
-          <span>QR 스캔으로 모바일 확인</span>
+          <span>QR 스캔으로 <br>모바일 확인</span>
         </div>
         <div class="w-icon-links">
           <a href="https://github.com/younsang5122/LocknLock" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.78-.25.78-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.19 1.18a11.1 11.1 0 0 1 5.8 0c2.22-1.49 3.19-1.18 3.19-1.18.63 1.59.23 2.77.11 3.06.74.81 1.19 1.83 1.19 3.09 0 4.41-2.7 5.39-5.27 5.67.41.36.78 1.07.78 2.16 0 1.56-.01 2.82-.01 3.2 0 .31.21.66.79.55C20.71 21.39 24 17.08 24 12c0-6.27-5.23-11.5-12-11.5z"></path></svg><span>GitHub</span></a>
@@ -553,5 +618,24 @@
   </div>
 </footer>
 
+<script>
+(function(){
+  var cards = document.querySelectorAll('#narrative .n-card');
+  if(!('IntersectionObserver' in window) || !cards.length){
+    cards.forEach(function(c){ c.classList.add('is-visible'); });
+    return;
+  }
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry, i){
+      if(entry.isIntersecting){
+        var index = Array.prototype.indexOf.call(cards, entry.target);
+        setTimeout(function(){ entry.target.classList.add('is-visible'); }, index * 140);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.35 });
+  cards.forEach(function(c){ observer.observe(c); });
+})();
+</script>
 </body>
 </html>
